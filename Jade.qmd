@@ -1,9 +1,13 @@
 # Jade Chapter
 
 ```{r}
+#| warining: false
 library(tidyverse)
 df <- read_csv("https://data.cityofnewyork.us/resource/8h9b-rp9u.csv")
 str(df)
+
+df <- df |>
+  rename(Precinct = arrest_precinct)
 ```
 
 ```{r}
@@ -11,6 +15,109 @@ library(ggplot2)
 ggplot(df, aes(x = longitude, y = latitude)) +
   geom_point(size = 0.5, aes(color = arrest_boro)) +
   theme_bw()
+```
+
+```{r}
+#| warning: false
+library(ggplot2)
+library(forcats)
+ggplot(df, aes(y = perp_race)) + 
+  geom_bar(aes(y = fct_rev(fct_infreq(perp_race)), fill = perp_sex)) +
+  theme_minimal() +
+  labs(title = "Arrests in NYC by Race", x = "count", y = "Race", fill = "Sex")
+```
+
+
+```{r}
+library(tidyverse)
+library(sf)
+library(readxl)
+
+nypp <- read_sf("nypp_25c/nypp.shp")
+
+
+newdata <- left_join(nypp, df) |>
+  select(c("Precinct", "perp_sex", "Shape_Leng", "Shape_Area", "geometry")) |>
+  filter(perp_sex == "M") |>
+  group_by(Precinct) |>
+  summarise(Male = n())
+
+male <- ggplot(newdata) +
+  geom_sf(aes(fill = Male)) + 
+  geom_sf_text(aes(label = Precinct), size = 2,
+               color = "white") +
+   scale_fill_gradient(low = "lightblue", high = "purple",
+                     na.value = "grey70") +
+  theme_void() 
+
+
+```
+
+```{r}
+#| warning: false
+library(patchwork)
+
+women <- left_join(nypp, df) |>
+  select(c("Precinct", "perp_sex", "Shape_Leng", "Shape_Area", "geometry")) |>
+  filter(perp_sex == "F") |>
+  group_by(Precinct) |>
+  summarise(Female = n())
+
+female <- ggplot(women) +
+  geom_sf(aes(fill = Female)) + 
+  geom_sf_text(aes(label = Precinct), size = 2,
+               color = "white") +
+   scale_fill_gradient(low = "lightblue", high = "purple",
+                     na.value = "grey70") +
+  theme_void()
+
+female | male
+```
+
+
+
+```{r}
+newer <- left_join(nypp, df) |>
+  select(c("Precinct", "perp_race", "Shape_Leng", "Shape_Area", "geometry")) |>
+  group_by(perp_race, Precinct) |>
+  summarise(race_count = n())
+
+ggplot(newer) +
+  geom_sf(aes(fill = perp_race)) + 
+  geom_sf_text(aes(label = Precinct), size = 2, color = "white")  +
+  theme_void() +
+  facet_wrap(vars(perp_race))
+```
+
+```{r}
+white <- left_join(nypp, df) |>
+  select(c("Precinct", "perp_race", "Shape_Leng", "Shape_Area", "geometry")) |>
+  filter(perp_race == "WHITE") |>
+  group_by(Precinct) |>
+  summarise(
+    white_count = n())
+
+black <- left_join(nypp, df) |>
+  select(c("Precinct", "perp_race", "Shape_Leng", "Shape_Area", "geometry")) |>
+  filter(perp_race == "BLACK") |>
+  group_by(Precinct) |>
+  summarise(
+    black_count = n())
+
+g1 <- ggplot(white) +
+  geom_sf(aes(fill = white_count)) + 
+  geom_sf_text(aes(label = Precinct), size = 2,
+               color = "white")  +
+  theme_void()
+
+g2 <- ggplot(black) +
+  geom_sf(aes(fill = black_count)) + 
+  geom_sf_text(aes(label = Precinct), size = 2,
+               color = "white")  +
+  theme_void()
+
+library(patchwork)
+g1 + g2
 ```
 
 

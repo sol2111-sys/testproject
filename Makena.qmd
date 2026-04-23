@@ -1,0 +1,31 @@
+# makena
+
+```{r}
+library(tidyverse)
+df <- read_csv("data/restrooms.csv")
+```
+
+```{r}
+ggplot(df, aes(x = Longitude, y = Latitude)) + 
+  geom_point()
+
+```
+
+```{r}
+parks <- df |> filter(`Location Type` == "Park")
+ggplot(parks, aes(x = Longitude, y = Latitude)) + 
+  geom_point()
+
+```
+
+
+```{r}
+ggplot(df, aes(x = `Location Type`, fill = Status)) + 
+  geom_bar()
+
+```
+make a graph of percentage of bathrooms that are non operational per location
+cleveland dot plot of who is in charge of all of the bathrooms
+year round vs seasonal
+changing stations and location
+figure out how to get burough in the so we can look at distribution of burough per location type

@@ -1,0 +1,13 @@
+# Loading Citibike Data 
+```{r}
+library(tidyverse)
+df <- read_csv("data/JC-202603-citibike-tripdata.csv")
+```
+
+Simple Bar Chart that shows how many citibike rides were from members vs casual users in Jersey City
+
+```{r}
+library(tidyverse)
+ggplot(df, aes(member_casual)) + 
+	geom_bar()
+```

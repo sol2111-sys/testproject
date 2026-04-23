@@ -11,12 +11,14 @@ book:
   chapters:
     - index.qmd
     - Charlene.qmd
-    - Dany.Rmd
+    - Dany.qmd
     - Jade.qmd
-    - Loadingdata.qmd
+    - Makena.qmd
     - PennyHuang.qmd
     - ShrinaCoolItProject.qmd
+    - Abisola.qmd
     - ziroudata.qmd
+    - Alexander.qmd
   
 format:
   html:

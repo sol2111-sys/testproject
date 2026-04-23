@@ -1,8 +1,0 @@
-# Loading Citibike Data 
-
-```{r}
-library(readr)
-df <- read_csv("data/JC-202603-citibike-tripdata.csv")
-head(df)  
-```
-

@@ -1,0 +1,32 @@
+# charleneeee
+
+```{r}
+
+library(readr)
+library(ggplot2)
+
+df <- read_csv("data/nyc_restaurant_sample.csv")
+
+head(df)
+
+```
+
+
+```{r}
+
+ggplot(df, aes(x = BORO)) +
+  geom_bar() +
+  labs(
+    title = "Number of Restaurants by Borough",
+    x = "Borough",
+    y = "Count"
+  )
+
+```
+
+```{r}
+
+
+
+```
+

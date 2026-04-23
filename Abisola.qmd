@@ -1,0 +1,10 @@
+# Dataset
+
+```{r}
+library(tidyverse)
+
+NFH_data <- read_csv("https://data.cityofnewyork.us/resource/r3dx-pew9.csv")
+
+head(NFH_data)
+
+```

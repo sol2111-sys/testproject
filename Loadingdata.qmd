@@ -1,4 +1,4 @@
-#SchoolSafetyReport
+# SchoolSafetyReport
 ```{r}
 library(tidyverse)
 df <- read_csv("data/schoolsafetyreport.csv")

@@ -1,0 +1,9 @@
+# Beach Water Samples
+
+```{r}
+library(readr)
+
+df <- read_csv("data/Beach_Water_Samples_20260421.csv")
+
+head(df)
+```

@@ -1,0 +1,9 @@
+Package: placeholder
+Type: Book
+Title: Does not matter
+Version: 0.0.0.9000
+Imports: 
+    redav,
+    sf
+Remotes: 
+    jtr13/redav

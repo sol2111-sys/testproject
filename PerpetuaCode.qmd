@@ -1,0 +1,21 @@
+```{r}
+# Chapter title
+
+
+data <- "https://data.cityofnewyork.us/resource/k46n-sa2m.csv"
+
+
+
+dhs_data <- read.csv(data)
+
+
+
+head(dhs_data)
+
+
+summary(dhs_data)
+
+```
+
+```         
+```

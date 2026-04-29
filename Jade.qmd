@@ -3,7 +3,7 @@
 ```{r}
 #| warining: false
 library(tidyverse)
-df <- read_csv("https://data.cityofnewyork.us/resource/8h9b-rp9u.csv")
+df <- read_csv("https://data.cityofnewyork.us/resource/uip8-fykc.csv")
 str(df)
 
 df <- df |>
@@ -16,6 +16,20 @@ ggplot(df, aes(x = longitude, y = latitude)) +
   geom_point(size = 0.5, aes(color = arrest_boro)) +
   theme_bw()
 ```
+
+
+```{r}
+#| warning: false
+library(ggplot2)
+library(forcats)
+ggplot(df, aes(y = ofns_desc)) + 
+  geom_bar(aes(y = fct_rev(fct_infreq(ofns_desc)), fill = perp_race)) +
+  theme_minimal() +
+  labs(title = "Arrests in NYC by Crime", x = "count", 
+       y = "Offense", fill = "Race") +
+  facet_wrap(vars(perp_sex))
+```
+
 
 ```{r}
 #| warning: false
@@ -121,3 +135,13 @@ g1 + g2
 ```
 
 
+```{r}
+library(redav)
+df_new <- df |>
+  select(starts_with("PE"))
+colnames(df_new) <- str_remove_all(colnames(df_new), "PE")
+plot_missing(df_new, max_rows = 20)
+
+
+plot_missing(df, num_char = 1)
+```

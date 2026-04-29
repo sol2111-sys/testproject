@@ -3,24 +3,45 @@
 ```{r}
 
 library(readr)
+library(dplyr)
 library(ggplot2)
+library(patchwork)
 
-df <- read_csv("data/nyc_restaurant_sample.csv")
-
-head(df)
+df <- read_csv("data/nyc_restaurant_sample.csv", show_col_types = FALSE)
 
 ```
 
-
 ```{r}
 
-ggplot(df, aes(x = BORO)) +
-  geom_bar() +
+a_grade <- df |>
+  filter(GRADE == "A") |>
+  count(`CUISINE DESCRIPTION`, sort = TRUE) |>
+  slice(1:10)
+
+b_grade <- df |>
+  filter(GRADE == "B") |>
+  count(`CUISINE DESCRIPTION`, sort = TRUE) |>
+  slice(1:10)
+
+g1 <- ggplot(a_grade, aes(x = n, y = reorder(`CUISINE DESCRIPTION`, n))) +
+  geom_col() +
   labs(
-    title = "Number of Restaurants by Borough",
-    x = "Borough",
-    y = "Count"
-  )
+    title = "Top Cuisines with Grade A",
+    x = "Count",
+    y = "Cuisine"
+  ) +
+  theme_minimal()
+
+g2 <- ggplot(b_grade, aes(x = n, y = reorder(`CUISINE DESCRIPTION`, n))) +
+  geom_col() +
+  labs(
+    title = "Top Cuisines with Grade B",
+    x = "Count",
+    y = "Cuisine"
+  ) +
+  theme_minimal()
+
+g1 + g2
 
 ```
 
